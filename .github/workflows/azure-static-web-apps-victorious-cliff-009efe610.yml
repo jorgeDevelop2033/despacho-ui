@@ -1,4 +1,3 @@
-
 name: Azure Static Web Apps CI/CD
 
 on:
@@ -34,9 +33,9 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_VICTORIOUS_CLIFF_009EFE610 }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "dist/controldespacho/browser"  # Esta es la carpeta del index.html
-          api_location: ""  # Opcional si no tienes APIs
-          output_location: ""  # Vacío para usar app_location como base
+          app_location: "dist/controldespacho/browser"
+          api_location: ""
+          output_location: ""
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
@@ -48,4 +47,3 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_VICTORIOUS_CLIFF_009EFE610 }}
           action: "close"
-

@@ -11,7 +11,6 @@ on:
 
 jobs:
   build_and_deploy_job:
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     steps:
@@ -25,22 +24,27 @@ jobs:
         with:
           node-version: '20'
           
-      - name: Install Dependencies
+      - name: Install dependencies
         run: npm install
         
       - name: Build Angular App
         run: npm run build
         
-      - name: Build And Deploy
-        id: builddeploy
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: dist/controldespacho/browser
+        
+      - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_VICTORIOUS_CLIFF_009EFE610 }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "dist/controldespacho/browser"  # Carpeta donde está index.html generado
-          api_location: ""  # Si no tienes API
-          output_location: ""  # Deja vacío para que Azure use app_location como base
+          app_location: "dist/controldespacho/browser"
+          api_location: ""
+          output_location: ""
           
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
@@ -48,8 +52,8 @@ jobs:
     name: Close Pull Request Job
     steps:
       - name: Close Pull Request
-        id: closepullrequest
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_VICTORIOUS_CLIFF_009EFE610 }}
           action: "close"
+

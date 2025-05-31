@@ -1,0 +1,26 @@
+<div class="max-w-2xl mx-auto p-6 bg-white shadow-xl rounded-2xl space-y-6">
+  <h2 class="text-2xl font-bold text-indigo-700">Registrar Entrega de Producto</h2>
+
+  <form [formGroup]="entregaForm" (ngSubmit)="onSubmit()" class="space-y-4">
+    <div>
+      <label class="block text-sm font-medium">Producto</label>
+      <select formControlName="productoId" class="input input-bordered w-full">
+        <option *ngFor="let p of productos" [value]="p.id">{{ p.nombre }}</option>
+      </select>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium">Kilos entregados</label>
+      <input type="number" formControlName="kilos" class="input input-bordered w-full" />
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium">Foto de respaldo</label>
+      <input type="file" (change)="onFileChange($event)" class="w-full text-sm" />
+    </div>
+
+    <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition w-full">
+      Registrar Entrega
+    </button>
+  </form>
+</div>

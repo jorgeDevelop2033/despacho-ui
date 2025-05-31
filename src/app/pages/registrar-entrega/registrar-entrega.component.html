@@ -1,0 +1,295 @@
+<div class="min-h-screen bg-gradient-to-br from-gray-100 via-white to-gray-200 font-sans text-gray-800 flex justify-center items-start py-2 px-2 sm:px-4 sm:py-4">
+  <div class="w-full max-w-screen-sm space-y-4 sm:space-y-6">
+
+    <!-- 🔵 Stepper compacto y visual -->
+    <div class="flex items-center justify-between w-full px-1 sm:px-4 mb-2 transition-all duration-300 ease-in-out border-b border-gray-300">
+      <!-- Paso 1 -->
+      <div class="flex-1 text-center cursor-pointer group pb-2 border-b-2"
+           [ngClass]="step === 1 ? 'border-blue-600' : 'border-transparent'" (click)="step = 1">
+        <div class="flex flex-col items-center transition-transform duration-200" [class.scale-105]="step === 1">
+          <div class="w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center text-white text-xs sm:text-sm shadow-md transition-all duration-200"
+               [ngClass]="step === 1 ? 'bg-blue-600' : 'bg-gray-300 text-gray-700'">
+            <span>1</span>
+          </div>
+          <span class="text-[10px] sm:text-xs mt-1 uppercase font-medium tracking-wide"
+                [ngClass]="step === 1 ? 'text-blue-600' : 'text-gray-400'">Despacho</span>
+        </div>
+      </div>
+
+      <!-- Paso 2 -->
+      <div class="flex-1 text-center cursor-pointer group pb-2 border-b-2"
+           [ngClass]="step === 2 ? 'border-blue-600' : 'border-transparent'" (click)="step = 2">
+        <div class="flex flex-col items-center transition-transform duration-200" [class.scale-105]="step === 2">
+          <div class="w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center text-white text-xs sm:text-sm shadow-md transition-all duration-200"
+               [ngClass]="step === 2 ? 'bg-blue-600' : 'bg-gray-300 text-gray-700'">
+            <span>2</span>
+          </div>
+          <span class="text-[10px] sm:text-xs mt-1 uppercase font-medium tracking-wide"
+                [ngClass]="step === 2 ? 'text-blue-600' : 'text-gray-400'">Agregar</span>
+        </div>
+      </div>
+
+      <!-- Paso 3 -->
+      <div class="flex-1 text-center cursor-pointer group pb-2 border-b-2"
+           [ngClass]="step === 3 ? 'border-blue-600' : 'border-transparent'" (click)="step = 3">
+        <div class="flex flex-col items-center transition-transform duration-200" [class.scale-105]="step === 3">
+          <div class="w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center text-white text-xs sm:text-sm shadow-md transition-all duration-200"
+               [ngClass]="step === 3 ? 'bg-blue-600' : 'bg-gray-300 text-gray-700'">
+            <span>3</span>
+          </div>
+          <span class="text-[10px] sm:text-xs mt-1 uppercase font-medium tracking-wide"
+                [ngClass]="step === 3 ? 'text-blue-600' : 'text-gray-400'">Confirmar</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paso 1 -->
+    <form *ngIf="step === 1" class="bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-gray-200 p-4 sm:p-6 space-y-4 text-sm">
+      <h2 class="text-lg sm:text-xl font-semibold text-blue-700 tracking-wide uppercase">Datos del despacho</h2>
+
+      <label class="block">
+        <span class="font-medium">Fecha</span>
+        <input type="date" [(ngModel)]="form.fecha" name="fecha"
+               class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" />
+      </label>
+
+      <label class="block">
+        <span class="font-medium">Tipo de precio</span>
+        <select [(ngModel)]="form.tipoPrecio" name="tipoPrecio"
+                (ngModelChange)="setTipoPrecio($event)"
+                class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+          <option [ngValue]="null" disabled>Seleccione tipo</option>
+          <option *ngFor="let tipo of tiposPrecio" [ngValue]="tipo">{{ tipo.nombre }}</option>
+        </select>
+      </label>
+
+      <div class="flex gap-4 items-center">
+        <label class="flex items-center gap-2">
+          <input type="radio" name="origen" value="cliente" [(ngModel)]="form.origen" /> Cliente
+        </label>
+        <label class="flex items-center gap-2">
+          <input type="radio" name="origen" value="ruta" [(ngModel)]="form.origen" /> Ruta
+        </label>
+      </div>
+
+      <div *ngIf="form.origen === 'cliente'">
+        <label class="block">
+          <span class="font-medium">Cliente</span>
+          <select [(ngModel)]="form.cliente" name="cliente"
+                  class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+            <option [ngValue]="null" disabled>Seleccione cliente</option>
+            <option *ngFor="let c of clientes" [ngValue]="c">{{ c.nombre }}</option>
+          </select>
+        </label>
+      </div>
+
+      <div *ngIf="form.origen === 'ruta'" class="space-y-3">
+        <label class="block">
+          <span class="font-medium">Ruta</span>
+          <select [(ngModel)]="form.ruta" name="rutaSeleccionada"
+                  class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+            <option [ngValue]="null" disabled>Seleccione ruta</option>
+            <option *ngFor="let r of rutas" [ngValue]="r">{{ r.nombreCliente }}</option>
+          </select>
+        </label>
+
+        <label class="block">
+          <span class="font-medium">Vendedor</span>
+          <select [(ngModel)]="form.vendedor" name="vendedor"
+                  class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+            <option [ngValue]="null" disabled>Seleccione Vendedor</option>
+            <option *ngFor="let v of vendedores" [ngValue]="v">{{ v.nombre }}</option>
+          </select>
+        </label>
+      </div>
+
+      <button type="button"
+              class="w-full flex justify-center items-center gap-2 bg-blue-600 text-white rounded-lg py-2 font-semibold hover:bg-blue-700 transition"
+              (click)="step = 2">
+        <i class="fa-solid fa-arrow-right"></i> Continuar
+      </button>
+    </form>
+
+    <!-- Paso 2 -->
+<form *ngIf="step === 2" class="bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-gray-200 p-4 sm:p-6 space-y-6 text-sm">
+  <h2 class="text-lg sm:text-xl font-semibold text-blue-700 tracking-wide uppercase">Agregar productos</h2>
+
+  <div *ngFor="let item of items; let i = index" @fadeInOut class="space-y-4 border-b border-gray-200 pb-4 relative">
+    <!-- Botones de acción -->
+    <div class="absolute top-0 right-0 mt-0 mr-1 flex gap-2 z-10">
+      <button type="button" (click)="eliminarProducto(i)" class="bg-red-500 hover:bg-red-600 text-white text-xs rounded-full px-2 py-0.5 shadow-sm flex items-center gap-1">
+        <i class="fa-solid fa-trash text-xs"></i> Eliminar
+      </button>
+    </div>
+
+    <!-- Producto -->
+    <label class="block">
+      <span class="font-medium">Producto</span>
+      <select [(ngModel)]="item.producto" [name]="'producto_' + i" (change)="actualizarPrecioProducto(item)"
+      class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 transition">
+      <option [ngValue]="null" disabled>Seleccione producto</option>
+      <option *ngFor="let p of productosDisponibles(i)" [ngValue]="p">{{ p.nombre }}</option>
+      </select>
+    </label>
+
+    <!-- Precio, Kilos, Total -->
+    <div class="grid grid-cols-3 gap-2">
+      <label class="block">
+        <span class="font-medium">Precio</span>
+        <input type="text" [value]="item.precio | currency:'':'symbol':'1.0-0'" readonly
+               class="mt-1 w-full px-2 py-1.5 border border-gray-300 bg-gray-100 rounded-md text-sm text-green-700 font-semibold shadow-sm focus:ring-2 focus:ring-blue-500 transition" />
+      </label>
+
+      <label class="block">
+        <span class="text-xs sm:text-sm font-medium">Kilos</span>
+        <input type="number"
+              [(ngModel)]="item.kilos"
+              [name]="'kilos_' + i"
+              (blur)="registrarPesoOriginal(item)"
+              class="mt-1 w-full px-2 py-1.5 border border-gray-300 rounded-md shadow-sm text-xs focus:ring-2 focus:ring-blue-500 transition" />
+      </label>
+
+      <label class="block">
+        <span class="text-xs sm:text-sm font-medium">Total</span>
+        <input type="text" [value]="item.precio * item.kilos | currency:'':'symbol':'1.2-2'" readonly
+               class="mt-1 w-full px-2 py-1.5 border bg-gray-100 border-gray-300 rounded-md shadow-sm text-xs font-bold text-emerald-700" />
+      </label>
+    </div>
+
+    <!-- Bandejas -->
+    <div class="space-y-3 pt-2" *ngIf="bandejasDisponibles.length">
+      <h4 class="text-sm font-semibold text-blue-700">Bandejas</h4>
+
+      <div *ngFor="let bandeja of bandejasDisponibles"
+           class="rounded-lg border border-gray-300 p-3 shadow-sm bg-white text-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+
+        <!-- Fila superior: descripción - cantidad - peso unitario -->
+        <div class="flex items-center justify-between gap-2 w-full">
+          <!-- Descripción -->
+          <span class="text-gray-700 flex-1 truncate">{{ bandeja.descripcion }}</span>
+
+          <!-- Cantidad -->
+          <input type="number"
+                 [ngModel]="item.bandejas[bandeja.id]?.cantidad || 0"
+                 (ngModelChange)="
+                   item.bandejas[bandeja.id] = {
+                     id: bandeja.id,
+                     descripcion: bandeja.descripcion,
+                     pesoKg: bandeja.pesoKg,
+                     cantidad: $event
+                   };
+                   recalcularKilos(item);
+                 "
+                 (blur)="recalcularKilos(item)"
+                 (keyup.enter)="recalcularKilos(item)"
+                 [name]="'bandeja_' + bandeja.id"
+                 class="w-16 text-center border border-gray-300 rounded px-2 py-1 shadow-sm"
+                 placeholder="0" min="0" />
+
+          <!-- Peso unitario -->
+          <span class="text-gray-500 w-20 text-right italic">
+            {{ bandeja.pesoKg | number:'1.2-2' }} kg/u
+          </span>
+        </div>
+
+        <!-- Fila inferior: total peso -->
+        <div class="text-center sm:text-right font-semibold text-gray-800 text-sm">
+          {{
+            (item.bandejas[bandeja.id]?.cantidad || 0) * (item.bandejas[bandeja.id]?.pesoKg || 0)
+            | number:'1.2-2'
+          }} kg
+        </div>
+      </div>
+    </div>
+
+    <!-- Fotos -->
+    <div>
+      <span class="font-medium text-sm">Fotos respaldo</span>
+      <div class="flex gap-3 mt-2">
+        <label class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-xs px-3 py-1.5 rounded cursor-pointer transition shadow-sm">
+          <i class="fa-solid fa-camera text-sm"></i> Tomar Foto
+          <input type="file" accept="image/*" capture="environment" (change)="onFilesChange($event, i)" multiple class="hidden" />
+        </label>
+
+        <label class="inline-flex items-center gap-2 bg-gray-200 hover:bg-gray-300 text-gray-800 text-xs px-3 py-1.5 rounded cursor-pointer transition shadow-sm">
+          <i class="fa-solid fa-folder-open text-sm"></i> Buscar Imagen
+          <input type="file" accept="image/*" (change)="onFilesChange($event, i)" multiple class="hidden" />
+        </label>
+      </div>
+
+      <div class="flex flex-wrap gap-2 pt-2">
+        <div *ngFor="let foto of item.fotos; let j = index" class="relative group">
+          <img [src]="foto" class="w-16 h-16 object-cover rounded border cursor-pointer transition hover:scale-105" (click)="verImagen(foto)" />
+          <button type="button" (click)="eliminarFoto(i, j)" class="absolute top-0 right-0 bg-red-600 text-white rounded-full w-4 h-4 text-[10px] hidden group-hover:flex items-center justify-center shadow-sm hover:bg-red-700">
+            ×
+          </button>
+        </div>
+      </div>
+
+      <ng-container *ngFor="let extraInput of item.inputsExtra">
+        <input type="file" class="w-full mt-1 text-sm" (change)="onFilesChange($event, i)" multiple />
+      </ng-container>
+    </div>
+  </div>
+
+  <!-- Agregar otro producto -->
+  <div class="pt-2">
+    <button type="button" class="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm transition" (click)="agregarItem()">
+      <i class="fa-solid fa-plus"></i> Agregar otro producto
+    </button>
+  </div>
+
+  <!-- Navegación -->
+  <div class="flex flex-col sm:flex-row sm:justify-between gap-3 mt-6">
+    <button type="button" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition w-full sm:w-auto font-semibold text-sm" (click)="step = 1">
+      Volver
+    </button>
+    <button type="button" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition w-full sm:w-auto font-semibold text-sm"
+            [disabled]="!formularioValidoPaso2()" (click)="step = 3">
+      Continuar
+    </button>
+  </div>
+</form>
+
+
+    <!-- Paso 3 -->
+    <form *ngIf="step === 3" (ngSubmit)="generarDespacho()" class="bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-gray-200 p-4 sm:p-6 space-y-4 text-sm">
+      <h2 class="text-lg sm:text-xl font-semibold text-blue-700 tracking-wide uppercase">Resumen y generación</h2>
+
+      <!-- Resumen de todos los productos agregados -->
+      <div *ngFor="let item of items; let i = index" class="border border-gray-200 rounded-lg p-3 bg-white shadow-sm space-y-2">
+        <div class="flex justify-between items-center">
+          <h3 class="font-semibold text-gray-700 text-sm">Producto #{{ i + 1 }}</h3>
+          <span class="text-xs text-gray-400 italic">{{ item.producto }}</span>
+        </div>
+
+        <div class="grid grid-cols-3 gap-3 text-xs">
+          <div><strong>Precio:</strong> {{ item.precio | currency:'':'symbol':'1.0-0' }}</div>
+          <div><strong>Kilos:</strong> {{ item.kilos }}</div>
+          <div class="text-right font-bold text-green-700"><strong>Total:</strong> {{ item.precio * item.kilos | currency:'':'symbol':'1.0-0' }}</div>
+        </div>
+
+        <!-- Miniaturas si existen -->
+        <div *ngIf="item.fotos?.length" class="flex flex-wrap gap-2 pt-2">
+          <img *ngFor="let foto of item.fotos"
+               [src]="foto"
+               class="w-14 h-14 object-cover rounded border shadow-sm" />
+        </div>
+      </div>
+
+      <!-- Observaciones -->
+      <label class="block">
+        <span class="font-medium">Observaciones</span>
+        <textarea [(ngModel)]="observaciones" name="observaciones" rows="3"
+                  class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"></textarea>
+      </label>
+
+      <!-- Botón generar -->
+      <button type="submit"
+              class="w-full flex items-center justify-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition font-semibold text-sm">
+        <i class="fa-solid fa-check"></i> Generar
+      </button>
+    </form>
+
+  </div>
+</div>

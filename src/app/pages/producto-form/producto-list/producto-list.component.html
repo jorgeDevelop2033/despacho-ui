@@ -1,0 +1,26 @@
+<h2 class="text-xl font-bold text-blue-700">📦 Lista de Productos</h2>
+<ul>
+  <li *ngFor="let producto of productos">
+    <button (click)="seleccionarProducto(producto)" class="text-blue-600 hover:underline">
+      {{ producto.nombre }} ({{ producto.codigoBarra }})
+    </button>
+  </li>
+</ul>
+
+<div *ngIf="productoSeleccionado">
+  <h3 class="text-lg font-semibold mt-4">Editar Precio de: {{ productoSeleccionado.nombre }}</h3>
+  <form [formGroup]="form" (ngSubmit)="guardarCambios()">
+    <label>
+      Tipo de Precio:
+      <select formControlName="tipoPrecioId">
+        <option *ngFor="let tipo of tipoPrecios" [value]="tipo.id">{{ tipo.nombre }}</option>
+      </select>
+    </label>
+    <label>
+      Valor:
+      <input type="number" formControlName="valor">
+    </label>
+    <button type="submit">Guardar</button>
+    <button type="button" (click)="productoSeleccionado = null">Cancelar</button>
+  </form>
+</div>

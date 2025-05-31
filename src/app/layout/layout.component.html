@@ -1,0 +1,102 @@
+<div class="min-h-screen flex bg-gray-900 font-sans text-gray-100">
+
+  <!-- Sidebar -->
+  <aside [class.translate-x-0]="menuAbierto" [class.-translate-x-full]="!menuAbierto"
+         class="fixed inset-y-0 left-0 w-64 transform bg-gradient-to-br from-pink-700 to-yellow-500 text-white shadow-xl transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 z-50">
+    <div class="flex items-center gap-2 px-4 py-4 border-b border-pink-400">
+      <h1 class="text-lg font-bold tracking-wide">Mi Aplicación</h1>
+    </div>
+
+    <nav class="flex-1 flex flex-col justify-between px-4 py-4 space-y-4 text-base font-medium tracking-wide">
+      <div class="space-y-3">
+        <!-- Balance -->
+        <a (click)="mostrarSubmenuBalance = !mostrarSubmenuBalance"
+           class="flex items-center gap-3 p-2 rounded-lg hover:bg-pink-700/40 transition cursor-pointer">
+          <span>Balance</span>
+        </a>
+        <div *ngIf="mostrarSubmenuBalance" class="pl-8 space-y-1 text-sm transition-all duration-300">
+          <a routerLink="/balance/semanal" (click)="navegar('/balance/semanal')" class="flex items-center gap-2 p-1 rounded hover:bg-pink-600/30 transition">
+            Semanal
+          </a>
+          <a routerLink="/calendario" (click)="navegar('/calendario')" class="flex items-center gap-2 p-1 rounded hover:bg-pink-600/30 transition">
+            Historico
+          </a>
+          <a routerLink="/calendario" (click)="navegar('/calendario')" class="flex items-center gap-2 p-1 rounded hover:bg-pink-600/30 transition">
+            Venta Vendedor
+          </a>
+        </div>
+
+        <a routerLink="/buscardespacho" (click)="navegar('/buscardespacho')" class="flex items-center gap-3 p-2 rounded-lg hover:bg-pink-700/40 transition">
+          Reportes
+        </a>
+        <a routerLink="/entregasregistrar" (click)="navegar('/entregasregistrar')" class="flex items-center gap-3 p-2 rounded-lg hover:bg-pink-700/40 transition">
+          Generar Despachos
+        </a>
+        <a routerLink="/devoluciones/buscar-filtro" (click)="navegar('/devoluciones/buscar-filtro')" class="flex items-center gap-3 p-2 rounded-lg hover:bg-pink-700/40 transition">
+          Generar Devolucion
+        </a>
+        <a routerLink="/reportes/cuadre/8df51d26-ab82-49e5-b19b-e99883c6a23a" (click)="navegar('/reportes/cuadre/8df51d26-ab82-49e5-b19b-e99883c6a23a')" class="flex items-center gap-3 p-2 rounded-lg hover:bg-pink-700/40 transition">
+          Generar Cuadre
+        </a>
+        <a routerLink="/usuario/roles/asignarpermisos" (click)="navegar('/usuario/roles/asignarpermisos')" class="flex items-center gap-3 p-2 rounded-lg hover:bg-pink-700/40 transition">
+          Deudores
+        </a>
+
+        <!-- Submenú Productos -->
+        <a (click)="mostrarSubmenuProductos = !mostrarSubmenuProductos" class="flex items-center gap-3 p-2 rounded-lg hover:bg-pink-700/40 transition cursor-pointer">
+          Productos
+        </a>
+        <div *ngIf="mostrarSubmenuProductos" class="pl-8 space-y-1 text-sm transition-all duration-300">
+          <a routerLink="/producto/registrarproducto" (click)="navegar('/producto/registrarproducto')" class="flex items-center gap-2 p-1 rounded hover:bg-pink-600/30 transition">
+            Registrar Producto
+          </a>
+          <a routerLink="/listar/producto" (click)="navegar('/listar/producto')" class="flex items-center gap-2 p-1 rounded hover:bg-pink-600/30 transition">
+            Listar Productos
+          </a>
+        </div>
+
+        <!-- Submenú Usuarios -->
+        <a (click)="mostrarSubmenuUsuarios = !mostrarSubmenuUsuarios" class="flex items-center gap-3 p-2 rounded-lg hover:bg-pink-700/40 transition cursor-pointer">
+          Usuarios
+        </a>
+        <div *ngIf="mostrarSubmenuUsuarios" class="pl-8 space-y-1 text-sm transition-all duration-300">
+          <a routerLink="/usuario/registrarusuario" (click)="navegar('/usuario/registrarusuario')" class="flex items-center gap-2 p-1 rounded hover:bg-pink-600/30 transition">
+            Crear Usuario
+          </a>
+          <a routerLink="/usuario/roles/asignarpermisos" (click)="navegar('/usuario/roles/asignarpermisos')" class="flex items-center gap-2 p-1 rounded hover:bg-pink-600/30 transition">
+            Asignar Permisos
+          </a>
+        </div>
+      </div>
+
+      <hr class="border-t border-pink-400 my-2">
+      <div>
+        <button (click)="cerrarSesion()" class="flex items-center gap-3 w-full p-2 rounded-lg text-white hover:text-white hover:bg-pink-600 transition">
+          Cerrar Sesión
+        </button>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Contenedor principal -->
+  <div class="flex-1 flex flex-col min-w-0" [class.lg\\:ml-64]="true">
+    <header class="sticky top-0 z-40 bg-gray-800 shadow-md border-b px-4 py-3 flex justify-between items-center text-white">
+      <h1 class="text-lg font-bold tracking-wide flex items-center gap-2">
+        Mi Aplicación
+      </h1>
+      <button class="lg:hidden flex flex-col items-center space-y-1" (click)="menuAbierto = !menuAbierto" aria-label="Menú">
+        <span class="w-6 h-0.5 bg-white transition" [ngClass]="menuAbierto ? 'rotate-45 translate-y-1.5' : ''"></span>
+        <span class="w-6 h-0.5 bg-white transition" [ngClass]="menuAbierto ? 'opacity-0' : ''"></span>
+        <span class="w-6 h-0.5 bg-white transition" [ngClass]="menuAbierto ? '-rotate-45 -translate-y-1.5' : ''"></span>
+      </button>
+    </header>
+
+    <main class="flex-1 w-full h-full p-4 bg-gray-100">
+      <router-outlet></router-outlet>
+    </main>
+
+    <footer class="bg-gray-800 text-center text-xs text-gray-300 py-3 border-t">
+      © {{ currentYear }} Mi Aplicación Angular.
+    </footer>
+  </div>
+</div>

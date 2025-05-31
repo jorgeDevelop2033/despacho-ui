@@ -1,0 +1,69 @@
+/* Fondo del formulario con sombreado y bordes suaves */
+form {
+  @apply bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-8;
+}
+
+/* Input y textarea con bordes modernos y enfoque llamativo */
+input[type="text"],
+input[type="email"],
+input[type="number"],
+
+
+/* Estilos adicionales para un look más moderno */
+/* Si usas Tailwind, agrégalos en tus estilos globales o adapta las clases */
+nav a, nav button {
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+nav a:hover, nav button:hover {
+  background: linear-gradient(135deg, #f472b6 0%, #facc15 100%);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
+  transition: all 0.3s ease-in-out;
+}
+
+nav a svg, nav button svg {
+  stroke-width: 2.5;
+  transition: transform 0.3s ease-in-out;
+}
+
+nav a:hover svg, nav button:hover svg {
+  transform: scale(1.2);
+}
+
+nav hr {
+  opacity: 0.5;
+  border-top-width: 1px;
+}
+
+header h1 svg {
+  transition: transform 0.3s ease-in-out;
+}
+
+header h1:hover svg {
+  transform: rotate(10deg) scale(1.1);
+}
+
+
+nav a, nav button {
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+nav a:hover, nav button:hover {
+  background: linear-gradient(135deg, #f472b6 0%, #facc15 100%);
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+  transition: all 0.3s ease-in-out;
+}
+
+nav a svg, nav button svg {
+  stroke-width: 2.5;
+}
+
+nav hr {
+  opacity: 0.5;
+}

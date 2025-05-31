@@ -1,0 +1,35 @@
+<div class="max-w-4xl mx-auto p-6 bg-white rounded-2xl shadow-lg space-y-6 font-sans">
+  <h2 class="text-3xl font-bold text-blue-700 text-center">🔎 Filtros de Búsqueda</h2>
+
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <!-- Vendedor -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Vendedor</label>
+      <select [(ngModel)]="vendedorSeleccionado" class="w-full mt-1 rounded-lg border-gray-300 focus:ring-2 focus:ring-blue-500 shadow-sm">
+        <option value="">-- Seleccionar --</option>
+        <option *ngFor="let v of vendedores" [value]="v">{{ v }}</option>
+      </select>
+    </div>
+
+    <!-- Fecha Desde -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Desde</label>
+      <input type="date" [(ngModel)]="fechaDesde" class="w-full mt-1 rounded-lg border-gray-300 focus:ring-2 focus:ring-blue-500 shadow-sm">
+    </div>
+
+    <!-- Fecha Hasta -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Hasta</label>
+      <input type="date" [(ngModel)]="fechaHasta" class="w-full mt-1 rounded-lg border-gray-300 focus:ring-2 focus:ring-blue-500 shadow-sm">
+    </div>
+  </div>
+
+  <div class="flex justify-center space-x-4">
+    <button (click)="filtrar()" class="bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg shadow hover:bg-blue-700 transition">
+      🔍 Buscar
+    </button>
+    <button (click)="limpiar()" class="bg-gray-300 text-gray-800 font-semibold px-6 py-2 rounded-lg shadow hover:bg-gray-400 transition">
+      🔄 Limpiar
+    </button>
+  </div>
+</div>

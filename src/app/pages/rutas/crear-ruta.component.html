@@ -1,0 +1,23 @@
+<div class="max-w-2xl mx-auto p-6 bg-white shadow-xl rounded-2xl space-y-6">
+  <h2 class="text-2xl font-bold text-indigo-700">Crear Ruta de Despacho</h2>
+
+  <form [formGroup]="rutaForm" (ngSubmit)="onSubmit()" class="space-y-4">
+    <div>
+      <label class="block text-sm font-medium">Fecha</label>
+      <input type="date" formControlName="fecha" class="input input-bordered w-full" />
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium">Vendedor</label>
+      <select formControlName="vendedorId" class="input input-bordered w-full">
+        <option *ngFor="let vendedor of vendedores" [value]="vendedor.id">
+          {{ vendedor.nombre }}
+        </option>
+      </select>
+    </div>
+
+    <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition w-full">
+      Crear Ruta
+    </button>
+  </form>
+</div>

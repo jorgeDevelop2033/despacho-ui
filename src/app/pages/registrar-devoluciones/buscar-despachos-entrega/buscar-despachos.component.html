@@ -1,0 +1,85 @@
+<div class="min-h-screen bg-gradient-to-b from-gray-100 via-white to-gray-200 p-4 sm:p-6 font-sans text-gray-800">
+  <h2 class="text-2xl font-bold text-fuchsia-700 mb-6 text-center">📦 Lista de Despachos</h2>
+
+  <!-- 🔍 Filtro -->
+  <div class="bg-white rounded-2xl shadow-md border border-gray-200 p-4 sm:p-6 mb-8 mx-auto max-w-3xl">
+    <div class="flex flex-col sm:flex-row sm:items-end gap-4 flex-wrap justify-center">
+      <div class="w-full sm:w-auto">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Buscar por Fecha:</label>
+        <input type="date"
+               [formControl]="fechaControl"
+               [value]="today"
+               class="w-64 rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-500 transition" />
+      </div>
+      <div class="flex gap-2 flex-wrap justify-center sm:justify-start">
+        <button (click)="buscarPorFecha()"
+                class="bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-semibold px-4 py-2 rounded-lg text-sm shadow transition flex items-center gap-1">
+          🔍 Buscar
+        </button>
+        <button (click)="limpiarFiltro()"
+                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-4 py-2 rounded-lg text-sm transition flex items-center gap-1">
+          🧹 Limpiar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🕓 Spinner -->
+  <div *ngIf="cargando" class="text-center py-10 text-gray-500 animate-pulse">
+    ⏳ Cargando despachos...
+  </div>
+
+  <!-- 📝 Lista -->
+  <ng-container *ngIf="!cargando && despachosFiltrados.length > 0; else sinResultados">
+    <div *ngFor="let despacho of despachosFiltrados"
+         class="animate-fade bg-white rounded-2xl shadow-md border border-gray-200 p-4 sm:p-6 mb-6 mx-auto max-w-3xl">
+      <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
+        <div>
+          <p class="text-sm text-gray-600 font-medium">Cliente:</p>
+          <p class="text-lg font-bold text-blue-800">{{ despacho.nombreCliente || 'N/A' }}</p>
+        </div>
+        <div>
+          <p class="text-sm text-gray-600 font-medium">Vendedor:</p>
+          <p class="text-lg font-bold text-blue-800">{{ despacho.nombreVendedor || 'N/A' }}</p>
+        </div>
+        <div>
+          <p class="text-sm text-gray-600 font-medium">Tipo de Precio:</p>
+          <p class="text-sm text-gray-800">{{ despacho.tipoPrecioDescripcion || 'N/A' }}</p>
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="mt-4 flex flex-col sm:flex-row sm:justify-end gap-2 flex-wrap">
+        <button (click)="verDetalles(despacho.id)"
+                class="bg-fuchsia-600 hover:bg-fuchsia-700 text-white text-sm font-semibold py-2 px-4 rounded-lg shadow transition flex items-center gap-1">
+          🔎 Ver Detalles
+        </button>
+        <button *ngIf="despacho.vendedorId"
+                (click)="generarDevolucion(despacho.id)"
+                class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-lg shadow transition flex items-center gap-1">
+          ↩️ Generar Devolución
+        </button>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<!-- 🔔 Sin resultados -->
+<ng-template #sinResultados>
+  <div class="flex items-center justify-center min-h-[300px] sm:min-h-[400px] animate-fade">
+    <div class="bg-white border border-gray-200 rounded-2xl p-6 sm:p-10 shadow-md max-w-lg text-center w-full space-y-4">
+      <svg class="mx-auto h-20 w-20 text-gray-300" fill="none" stroke="currentColor" stroke-width="1.5"
+           viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M3 3h18M9 3v2.25M15 3v2.25M6.75 7.5h10.5m-13.5 0H4.5A1.5 1.5 0 003 9v9.75A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V9a1.5 1.5 0 00-1.5-1.5h-.75m-13.5 0V6a1.5 1.5 0 011.5-1.5h10.5A1.5 1.5 0 0119.5 6v1.5" />
+      </svg>
+      <p class="text-2xl sm:text-3xl font-bold text-gray-600">❌ No hay despachos encontrados</p>
+      <p class="text-sm sm:text-base text-gray-500">No se encontraron resultados para la fecha seleccionada.</p>
+      <p class="text-xs text-gray-400">Puedes probar con otra fecha o limpiar el filtro para ver todos los despachos.</p>
+      <button (click)="limpiarFiltro()"
+              class="mt-4 bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-semibold px-4 py-2 rounded-lg shadow text-sm sm:text-base transition">
+        🔄 Ver Todos los Despachos
+      </button>
+    </div>
+  </div>
+</ng-template>

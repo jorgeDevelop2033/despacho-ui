@@ -1,0 +1,15 @@
+/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+
+body {
+  @apply bg-gradient-to-tr from-blue-50 to-violet-100;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

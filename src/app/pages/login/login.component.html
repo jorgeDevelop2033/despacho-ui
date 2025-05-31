@@ -1,0 +1,43 @@
+<div class="min-h-screen flex items-start sm:items-center justify-center bg-gradient-to-br from-blue-100 via-white to-blue-200 p-4 sm:p-6 md:p-8">
+  <form [formGroup]="loginForm" (ngSubmit)="login()"
+        class="w-full max-w-sm bg-white rounded-2xl shadow-lg p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6 text-gray-800 font-sans transition-all duration-300 mt-8 sm:mt-0">
+
+    <h2 class="text-2xl sm:text-3xl font-extrabold text-center text-blue-700">Iniciar Sesión</h2>
+    <p class="text-center text-gray-500 text-sm sm:text-base">Accede con tus credenciales</p>
+
+    <!-- Email -->
+    <div>
+      <label for="email" class="block text-sm sm:text-base font-medium text-blue-700">Email</label>
+      <input id="email" formControlName="email" type="email" placeholder="correo@ejemplo.com"
+             class="mt-1 w-full px-3 sm:px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400
+                    placeholder-gray-400 shadow-sm text-sm sm:text-base transition duration-200">
+      <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+           class="text-red-500 text-xs sm:text-sm mt-1">Email válido es requerido</div>
+    </div>
+
+    <!-- Contraseña -->
+    <div>
+      <label for="passwordHash" class="block text-sm sm:text-base font-medium text-blue-700">Contraseña</label>
+      <input id="passwordHash" formControlName="passwordHash" type="password" placeholder="********"
+             class="mt-1 w-full px-3 sm:px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400
+                    placeholder-gray-400 shadow-sm text-sm sm:text-base transition duration-200">
+      <div *ngIf="loginForm.get('passwordHash')?.invalid && loginForm.get('passwordHash')?.touched"
+           class="text-red-500 text-xs sm:text-sm mt-1">Contraseña requerida</div>
+    </div>
+
+    <!-- Botón -->
+    <div class="flex justify-center">
+      <button type="submit" [disabled]="loginForm.invalid"
+              class="w-full py-2 rounded-lg text-white font-semibold bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500
+                     hover:from-purple-700 hover:via-pink-600 hover:to-blue-600 active:scale-95 transition duration-300
+                     flex items-center justify-center gap-2 text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+             viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 11V7a4 4 0 0 1 8 0v4" />
+          <rect x="6" y="11" width="12" height="10" rx="2" ry="2" />
+        </svg>
+        Iniciar Sesión
+      </button>
+    </div>
+  </form>
+</div>

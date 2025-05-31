@@ -1,0 +1,99 @@
+<div *ngIf="reporte" class="font-sans text-gray-800 leading-relaxed space-y-4">
+
+  <!-- Título destacado -->
+  <h2 class="text-lg sm:text-2xl font-bold text-blue-700 tracking-tight">📦 Comparativo de Entregas y Devoluciones</h2>
+
+  <!-- Vista móvil (más legible) -->
+  <div class="md:hidden space-y-4 text-sm">
+    <section class="bg-white rounded-lg shadow border border-blue-200 p-3">
+      <h3 class="text-blue-700 font-semibold mb-1 tracking-tight">🟢 Entregados</h3>
+      <div *ngFor="let item of reporte.productosEntregados" class="border-b border-gray-100 py-1">
+        <p><span class="font-medium">Producto:</span> {{ item.descripcion }}</p>
+        <p><span class="font-medium">Kg:</span> {{ item.pesoKg | number:'1.2-2' }}</p>
+        <p><span class="font-medium">Precio:</span> {{ item.precioUnitario | currency:'CLP' }}</p>
+        <p><span class="font-medium">Subtotal:</span> {{ item.subtotal | currency:'CLP' }}</p>
+      </div>
+    </section>
+
+    <section class="bg-white rounded-lg shadow border border-red-200 p-3">
+      <h3 class="text-red-700 font-semibold mb-1 tracking-tight">🔴 Devueltos</h3>
+      <div *ngFor="let item of reporte.productosDevueltos" class="border-b border-gray-100 py-1">
+        <p><span class="font-medium">Producto:</span> {{ item.descripcion }}</p>
+        <p><span class="font-medium">Kg:</span> {{ item.pesoKg | number:'1.2-2' }}</p>
+        <p><span class="font-medium">Precio:</span> {{ item.precioUnitario | currency:'CLP' }}</p>
+        <p><span class="font-medium">Subtotal:</span> {{ item.subtotal | currency:'CLP' }}</p>
+      </div>
+    </section>
+
+    <section class="bg-white rounded-lg shadow border border-gray-200 p-3">
+      <h3 class="text-gray-700 font-semibold mb-1 tracking-tight">⚖️ Diferencias</h3>
+      <div *ngFor="let fila of filasComparadas" class="border-b border-gray-100 py-1">
+        <p><span class="font-medium">Producto:</span> {{ fila.entrega?.descripcion ?? fila.devolucion?.descripcion ?? '-' }}</p>
+        <p><span class="font-medium">Diferencia:</span> <span [ngClass]="fila.diferenciaKg < 0 ? 'text-red-600' : 'text-blue-700'">{{ fila.diferenciaKg | number:'1.2-2' }} kg</span></p>
+      </div>
+    </section>
+
+    <section class="bg-gray-50 rounded-lg shadow border border-gray-300 p-3 text-right font-medium">
+      <p>Total Entregado: <span class="font-bold">{{ reporte.totalEntregado | currency:'' }}</span></p>
+      <p>Total Devuelto: <span class="font-bold">{{ reporte.totalDevuelto | currency:'' }}</span></p>
+      <p class="text-blue-800 font-bold">Total Neto: {{ reporte.totalNeto | currency:'' }}</p>
+      <p class="text-xs text-gray-600">Diferencia Kg: {{ diferenciaKilosTotales | number:'1.2-2' }}</p>
+    </section>
+  </div>
+
+  <!-- Vista escritorio/tablet con tipografía mejorada -->
+  <div class="hidden md:block bg-white rounded-xl shadow border border-gray-200 p-4 max-w-5xl mx-auto">
+    <div class="overflow-x-auto">
+      <table class="min-w-[700px] w-full text-sm border-collapse leading-snug">
+        <thead class="bg-gray-100 text-xs text-gray-700 uppercase tracking-wider">
+          <tr>
+            <th colspan="4" class="text-center py-1 text-blue-700">Entregados</th>
+            <th class="text-center py-1 text-gray-700">Dif. (kg)</th>
+            <th colspan="4" class="text-center py-1 text-red-700">Devueltos</th>
+          </tr>
+          <tr class="bg-gray-50 font-medium">
+            <th class="p-1 text-left">Producto</th>
+            <th class="p-1 text-right">Kg</th>
+            <th class="p-1 text-right">Precio</th>
+            <th class="p-1 text-right">Subtotal</th>
+            <th class="p-1 text-center">Dif.</th>
+            <th class="p-1 text-left">Producto</th>
+            <th class="p-1 text-right">Kg</th>
+            <th class="p-1 text-right">Precio</th>
+            <th class="p-1 text-right">Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let fila of filasComparadas" class="hover:bg-gray-50">
+            <td class="p-1">{{ fila.entrega?.descripcion ?? '-' }}</td>
+            <td class="p-1 text-right">{{ fila.entrega?.pesoKg ?? 0 | number:'1.2-2' }}</td>
+            <td class="p-1 text-right">{{ fila.entrega?.precioUnitario ?? 0 | currency:'' }}</td>
+            <td class="p-1 text-right">{{ fila.entrega?.subtotal ?? 0 | currency:'' }}</td>
+            <td class="p-1 text-center font-semibold {{ fila.diferenciaKg < 0 ? 'text-red-600' : 'text-blue-700' }}">{{ fila.diferenciaKg | number:'1.2-2' }}</td>
+            <td class="p-1">{{ fila.devolucion?.descripcion ?? '-' }}</td>
+            <td class="p-1 text-right text-red-600">{{ fila.devolucion?.pesoKg ?? 0 | number:'1.2-2' }}</td>
+            <td class="p-1 text-right">{{ fila.devolucion?.precioUnitario ?? 0 | currency:'' }}</td>
+            <td class="p-1 text-right">{{ fila.devolucion?.subtotal ?? 0 | currency:'' }}</td>
+          </tr>
+        </tbody>
+        <tfoot class="bg-blue-50 font-semibold text-blue-800">
+          <tr>
+            <td class="p-1 text-right">Totales:</td>
+            <td class="p-1 text-right">{{ totalEntregadoKg | number:'1.2-2' }}</td>
+            <td></td>
+            <td class="p-1 text-right">{{ reporte.totalEntregado | currency:'' }}</td>
+            <td class="p-1 text-center">{{ diferenciaKilosTotales | number:'1.2-2' }}</td>
+            <td></td>
+            <td class="p-1 text-right">{{ totalDevueltoKg | number:'1.2-2' }}</td>
+            <td></td>
+            <td class="p-1 text-right">{{ reporte.totalDevuelto | currency:'' }}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <div class="text-right font-bold text-blue-800 mt-2">
+      🧾 Total Neto: {{ reporte.totalNeto | currency:'' }}
+    </div>
+  </div>
+
+</div>

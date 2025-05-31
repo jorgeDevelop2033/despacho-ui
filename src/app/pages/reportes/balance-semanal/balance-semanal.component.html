@@ -1,0 +1,53 @@
+<div class="flex justify-end mb-4">
+  <button (click)="exportarPDF()"
+          class="flex items-center gap-2 bg-gradient-to-r from-fuchsia-500 to-pink-500 text-white font-semibold px-5 py-2 rounded-full shadow-md hover:from-fuchsia-600 hover:to-pink-600 transition-transform transform hover:scale-105">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4" />
+    </svg>
+    Exportar a PDF
+  </button>
+</div>
+
+<div class="overflow-x-auto rounded-lg border border-gray-300 shadow-md">
+  <table class="min-w-full text-sm sm:text-base text-gray-700 font-medium">
+    <thead class="bg-blue-800 text-white capitalize tracking-wide text-xs sm:text-sm sticky top-0 z-10">
+      <tr>
+        <th class="px-3 py-2 text-left whitespace-nowrap bg-blue-800">Producto</th>
+        <th class="px-2 py-2 text-center whitespace-nowrap bg-blue-800">Lunes<br><span class="text-xs font-normal lowercase">Peso</span></th>
+        <th class="px-2 py-2 text-center whitespace-nowrap bg-blue-800">Martes<br><span class="text-xs font-normal lowercase">Peso</span></th>
+        <th class="px-2 py-2 text-center whitespace-nowrap bg-blue-800">Miércoles<br><span class="text-xs font-normal lowercase">Peso</span></th>
+        <th class="px-2 py-2 text-center whitespace-nowrap bg-blue-800">Jueves<br><span class="text-xs font-normal lowercase">Peso</span></th>
+        <th class="px-2 py-2 text-center whitespace-nowrap bg-blue-800">Viernes<br><span class="text-xs font-normal lowercase">Peso</span></th>
+        <th class="px-2 py-2 text-center whitespace-nowrap bg-blue-800">Sábado<br><span class="text-xs font-normal lowercase">Peso</span></th>
+        <th class="px-2 py-2 text-center whitespace-nowrap bg-blue-800">Domingo<br><span class="text-xs font-normal lowercase">Peso</span></th>
+        <th class="px-3 py-2 text-center whitespace-nowrap bg-green-700">Total<br><span class="text-xs font-normal lowercase"></span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let producto of datos$ | async" class="even:bg-white odd:bg-blue-50 hover:bg-blue-100/50 transition">
+        <td class="px-3 py-1 sm:py-2 font-semibold whitespace-nowrap">{{ producto.Producto }}</td>
+        <td class="px-2 py-1 sm:py-2 text-center">{{ producto.Lunes }}</td>
+        <td class="px-2 py-1 sm:py-2 text-center">{{ producto.Martes }}</td>
+        <td class="px-2 py-1 sm:py-2 text-center">{{ producto.Miercoles }}</td>
+        <td class="px-2 py-1 sm:py-2 text-center">{{ producto.Jueves }}</td>
+        <td class="px-2 py-1 sm:py-2 text-center">{{ producto.Viernes }}</td>
+        <td class="px-2 py-1 sm:py-2 text-center">{{ producto.Sabado }}</td>
+        <td class="px-2 py-1 sm:py-2 text-center">{{ producto.Domingo }}</td>
+        <td class="px-3 py-1 sm:py-2 text-center font-bold text-white bg-green-500">{{ producto.Total }}</td>
+      </tr>
+    </tbody>
+    <tfoot class="font-semibold text-white text-sm sm:text-base sticky bottom-0 z-10">
+      <tr class="bg-green-700">
+        <td class="px-3 py-2 text-left">Totales</td>
+        <td class="px-2 py-2 text-center">{{ total.lunes }}</td>
+        <td class="px-2 py-2 text-center">{{ total.martes }}</td>
+        <td class="px-2 py-2 text-center">{{ total.miercoles }}</td>
+        <td class="px-2 py-2 text-center">{{ total.jueves }}</td>
+        <td class="px-2 py-2 text-center">{{ total.viernes }}</td>
+        <td class="px-2 py-2 text-center">{{ total.sabado }}</td>
+        <td class="px-2 py-2 text-center">{{ total.domingo }}</td>
+        <td class="px-3 py-2 text-center font-extrabold">{{ total.totalGeneral }}</td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
